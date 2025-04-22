@@ -33,7 +33,7 @@ Werk zelfstandig een compleet concept uit, inclusief suggesties voor inhoud en s
 
             try:
                 response = openai_client.chat.completions.create(
-                    model="gpt-4",
+                    model="gpt-3.5-turbo",
                     messages=[
                         {"role": "system", "content": "Je bent MarketingMate, een expert in marketingcreatie voor financiële diensten."},
                         {"role": "user", "content": prompt}

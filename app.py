@@ -2,7 +2,7 @@ import openai
 import streamlit as st
 
 # Zet hier je OpenAI API Key
-openai.api_key = st.secrets["OPENAI_API_KEY"] if "OPENAI_API_KEY" in st.secrets else ""
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 st.title("\ud83c\udf1f MarketingMate - Jouw AI Marketing Assistent")
 

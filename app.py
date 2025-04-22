@@ -51,10 +51,6 @@ Werk zelfstandig een compleet concept uit, inclusief suggesties voor inhoud en s
                 st.success("Hier is jouw uitgewerkte concept!")
                 st.write(output)
                 
-            except openai.error.APIError as e:
-                st.error(f"API fout: {e}")
-            except openai.error.RateLimitError as e:
-                st.error(f"Rate limit fout: {e}")
             except Exception as e:
                 st.error(f"Er ging iets mis: {e}")
 

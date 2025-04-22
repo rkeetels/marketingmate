@@ -2,10 +2,12 @@ import os
 import openai
 import streamlit as st
 
-# Zet hier je OpenAI API Key
+# Controleer of de OpenAI API key beschikbaar is
 openai.api_key = os.getenv("OPENAI_API_KEY")
+if openai.api_key is None:
+    st.error("API-sleutel niet gevonden. Zorg ervoor dat de omgevingvariabele 'OPENAI_API_KEY' goed is ingesteld.")
 
-st.title("\ud83c\udf1f MarketingMate - Jouw AI Marketing Assistent")
+st.title("MarketingMate - Jouw AI Marketing Assistent")
 
 # Vraag input van gebruiker
 st.header("Geef MarketingMate een opdracht")
@@ -42,9 +44,15 @@ Werk zelfstandig een compleet concept uit, inclusief suggesties voor inhoud en s
                 )
                 
                 output = response['choices'][0]['message']['content']
+                
+                # Limiteer de output als het te lang is
+                output = output[:3000]  # Limiteer tot 3000 tekens om te voorkomen dat er te veel wordt weergegeven
+                
                 st.success("Hier is jouw uitgewerkte concept!")
                 st.write(output)
                 
+            except openai.error.OpenAIError as e:
+                st.error(f"OpenAI fout: {e}")
             except Exception as e:
                 st.error(f"Er ging iets mis: {e}")
 

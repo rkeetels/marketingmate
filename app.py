@@ -2,10 +2,8 @@ import os
 import openai
 import streamlit as st
 
-# Controleer of de OpenAI API key beschikbaar is
-openai.api_key = os.getenv("OPENAI_API_KEY")
-if openai.api_key is None:
-    st.error("API-sleutel niet gevonden. Zorg ervoor dat de omgevingvariabele 'OPENAI_API_KEY' goed is ingesteld.")
+# Zet hier je OpenAI API Key
+openai_client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 st.title("MarketingMate - Jouw AI Marketing Assistent")
 
@@ -32,9 +30,9 @@ Schrijfstijl: {tone}
 
 Werk zelfstandig een compleet concept uit, inclusief suggesties voor inhoud en structuur. Denk stap voor stap en reflecteer kort waarom je keuzes maakt.
 """
-            
+
             try:
-                response = openai.ChatCompletion.create(
+                response = openai_client.chat.completions.create(
                     model="gpt-4",
                     messages=[
                         {"role": "system", "content": "Je bent MarketingMate, een expert in marketingcreatie voor financiële diensten."},
@@ -42,15 +40,11 @@ Werk zelfstandig een compleet concept uit, inclusief suggesties voor inhoud en s
                     ],
                     temperature=0.7
                 )
-                
-                output = response['choices'][0]['message']['content']
-                
-                # Limiteer de output als het te lang is
-                output = output[:3000]  # Limiteer tot 3000 tekens om te voorkomen dat er te veel wordt weergegeven
-                
+
+                output = response.choices[0].message.content
                 st.success("Hier is jouw uitgewerkte concept!")
                 st.write(output)
-                
+
             except Exception as e:
                 st.error(f"Er ging iets mis: {e}")
 
